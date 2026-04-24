@@ -29,7 +29,8 @@ if (EMSCRIPTEN)
         -O3
         -sUSE_WEBGL2=1               # Enable WebGL 2.0
         -sALLOW_MEMORY_GROWTH=1      # Allow memory to grow dynamically
-        -sEXPORTED_FUNCTIONS=['_main','_initEngine','_renderFrame','_shutdownEngine','_getEngineVersion']
+        -sFETCH=1                    # Enable Emscripten Fetch API for cloud assets
+        -sEXPORTED_FUNCTIONS=['_main','_initEngine','_renderFrame','_shutdownEngine','_getEngineVersion','_fetchCloudAsset']
         -sEXPORTED_RUNTIME_METHODS=['ccall','cwrap']
         -sMODULARIZE=1               # Export as ES6 module
         -sEXPORT_NAME=createEngine   # Module factory function name
