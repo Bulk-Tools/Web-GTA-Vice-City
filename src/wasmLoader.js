@@ -6,6 +6,19 @@
 let engineModule = null;
 let isInitialized = false;
 
+/**
+ * Dynamically loads a script and returns when it's ready
+ */
+function loadScript(src) {
+  return new Promise((resolve, reject) => {
+    const script = document.createElement('script');
+    script.src = src;
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  });
+}
+
 export async function loadWasmEngine() {
   if (engineModule) {
     console.log('[Wasm Loader] Engine already loaded');
@@ -15,11 +28,17 @@ export async function loadWasmEngine() {
   try {
     console.log('[Wasm Loader] Loading WebAssembly engine module...');
 
-    // Dynamic import of the Emscripten-generated JS glue code
-    const createEngine = (await import('/wasm/engine.js')).default;
+    // Load the Emscripten-generated JS glue code dynamically at runtime
+    // This avoids Vite trying to bundle it during build time
+    await loadScript('/wasm/engine.js');
+
+    // The script defines a global createEngine function
+    if (typeof window.createEngine !== 'function') {
+      throw new Error('createEngine function not found after loading engine.js');
+    }
 
     console.log('[Wasm Loader] Initializing engine module...');
-    engineModule = await createEngine({
+    engineModule = await window.createEngine({
       canvas: document.getElementById('canvas'),
       onRuntimeInitialized: () => {
         console.log('[Wasm Loader] Runtime initialized successfully');
