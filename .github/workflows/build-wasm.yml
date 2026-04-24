@@ -13,6 +13,9 @@ on:
       - '.github/workflows/build-wasm.yml'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build-wasm:
     runs-on: ubuntu-latest
