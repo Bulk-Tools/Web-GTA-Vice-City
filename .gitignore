@@ -22,3 +22,13 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# C++ build artifacts
+engine/build/
+*.o
+*.a
+
+# Keep compiled Wasm output in public
+!public/wasm/*.js
+!public/wasm/*.wasm
+
