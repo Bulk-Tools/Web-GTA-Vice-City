@@ -17,4 +17,5 @@ export default defineConfig({
   optimizeDeps: {
     exclude: ['engine.js'], // Don't pre-bundle the Wasm module
   },
+  assetsInclude: ['**/*.wasm'],
 })
